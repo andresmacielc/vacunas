@@ -1,6 +1,6 @@
 Vacunas-BackEnd
 ============
-Trabajo práctico IS2 - Marcos Peralta
+#Trabajo práctico IS2 - Marcos Daniel Peralta Núñez, 4.776.313
 
 # Jboss AS 7.1.1 Final: <br>
 -Descargar el servidor del siguiente link: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
