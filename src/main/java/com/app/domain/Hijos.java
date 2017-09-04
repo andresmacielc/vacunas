@@ -20,8 +20,8 @@ public class Hijos implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@SequenceGenerator(name = "USUARIO_GENERATOR", allocationSize=1, initialValue=1, sequenceName = "public.hijos_seq")
-	@GeneratedValue(generator = "USUARIO_GENERATOR", strategy=GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "HIJOS_GENERATOR", allocationSize=1, initialValue=1, sequenceName = "public.hijos_seq")
+	@GeneratedValue(generator = "HIJOS_GENERATOR", strategy=GenerationType.SEQUENCE)
 	@Id
 	@Column(name = "id_hijo")
 	private Long idHijo;

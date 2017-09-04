@@ -13,6 +13,7 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import com.app.domain.Usuarios;
+import com.app.domain.Vacunas;
 import com.app.utils.tables.dao.GenericDaoImpl;
 
 public class UsuariosTableDAO extends GenericDaoImpl<Usuarios> {
@@ -71,15 +72,15 @@ public class UsuariosTableDAO extends GenericDaoImpl<Usuarios> {
 	}
 	
 	public String eliminarUsuario(Long id) {
-		em = entityManagerFactory.createEntityManager();
-	    Query q = em.createQuery("DELETE FROM Usuarios WHERE  idUsuario = "
-	            + id);
 	    try{
+			em = entityManagerFactory.createEntityManager();
 	    	em.getTransaction().begin();
-	    	q.executeUpdate();
+	    	Usuarios usuarios = new Usuarios();
+	    	usuarios = em.find(Usuarios.class, id);
+			em.remove(usuarios);
 	    	em.getTransaction().commit();
 	    	em.close();
-	    	return "OK";
+	        return "OK";
 	    }catch (PersistenceException pe){
 	        pe.printStackTrace();
 	        return "ERROR";

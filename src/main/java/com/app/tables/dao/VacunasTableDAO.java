@@ -12,80 +12,76 @@ import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
-import com.app.domain.Hijos;
-import com.app.domain.Usuarios;
+import com.app.domain.Vacunas;
 import com.app.utils.tables.dao.GenericDaoImpl;
 
-public class HijosTableDAO extends GenericDaoImpl<Usuarios> {
+public class VacunasTableDAO extends GenericDaoImpl<Vacunas> {
 
 	@PersistenceUnit(unitName = "app")
     private EntityManagerFactory entityManagerFactory;
 
     
-	public Hijos getHijo(Long idHijo) throws SQLException, NamingException {
+	public Vacunas getVacuna(Long idVacuna) throws SQLException, NamingException {
 		em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
-		Hijos hijo = new Hijos();
-		hijo = em.find(Hijos.class, idHijo);		
+		Vacunas vacuna = new Vacunas();
+		vacuna = em.find(Vacunas.class, idVacuna);		
 		em.close();
-		return hijo;
+		return vacuna;
 	}
 	
-    public List<Map<String, Object>> getHijos(Long idPadre) {
+    public List<Map<String, Object>> getVacunas(Long idHijo) {
       StringBuilder countQuery = new StringBuilder();
       countQuery.append("select * ");
-      countQuery.append(" from public.hijos");
-      countQuery.append(" where id_padre ='"+idPadre.toString()+"'");
+      countQuery.append(" from public.vacunas");
+      countQuery.append(" where id_hijo ='"+idHijo.toString()+"'");
       List<Object[]> oResultList = em.createNativeQuery(countQuery.toString()).
               getResultList();
       if(oResultList.size()<=0){
     	  return null;
       }
-      List<Map<String, Object>> resultlist = new ArrayList<>();
+      List<Map<String, Object>>  resultlist = new ArrayList<>();
       for (Object[] oResultArray : oResultList) {
           Map<String, Object> oMapResult = new HashMap<>();
-          oMapResult.put("idHijo", oResultArray[0]);
-          oMapResult.put("IdPadre", oResultArray[1]);
-          oMapResult.put("nombres", oResultArray[2]);
-          oMapResult.put("apellidos", oResultArray[3]);
-          oMapResult.put("edad", oResultArray[4]);
-          oMapResult.put("documento", oResultArray[5]);
-          oMapResult.put("fechaNacimiento", oResultArray[6]);
-          oMapResult.put("sexo", oResultArray[7]);
+          oMapResult.put("idVacuna", oResultArray[0]);
+          oMapResult.put("idHijo", oResultArray[1]);
+          oMapResult.put("nombreVacuna", oResultArray[2]);
+          oMapResult.put("fechaAplicacion", oResultArray[3]);
+          oMapResult.put("aplicada", oResultArray[4]);
           resultlist.add(oMapResult);
       }
       return resultlist;
     }
     
-	public Hijos crearHijo(Hijos hijos) throws SQLException, NamingException {
+	public Vacunas crearVacuna(Vacunas vacunas) throws SQLException, NamingException {
 		em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(hijos);
+		em.persist(vacunas);
 		em.getTransaction().commit();
 		em.close();
-		return hijos;
+		return vacunas;
 	}
     
-	public String modificarHijo(Hijos hijos) throws SQLException, NamingException {
+	public String modificarVacuna(Vacunas vacunas) throws SQLException, NamingException {
 		em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
-		em.find(Hijos.class, hijos.getIdHijo());
-		em.merge(hijos);
+		em.find(Vacunas.class, vacunas.getIdVacuna());
+		em.merge(vacunas);
 		em.getTransaction().commit();
 		em.close();
 		return "OK";
 	}
 	
-	public String eliminarHijo(Long id) {
+	public String eliminarVacuna(Long id) {
 	    try{
 			em = entityManagerFactory.createEntityManager();
 	    	em.getTransaction().begin();
-	    	Hijos hijos = new Hijos();
-	    	hijos = em.find(Hijos.class, id);
-			em.remove(hijos);
+			Vacunas vacuna = new Vacunas();
+			vacuna = em.find(Vacunas.class, id);
+			em.remove(vacuna);
 	    	em.getTransaction().commit();
 	    	em.close();
-	        return "OK";
+	    	return "OK";
 	    }catch (PersistenceException pe){
 	        pe.printStackTrace();
 	        return "ERROR";

@@ -1,6 +1,7 @@
 package com.app.tables.facade;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +31,7 @@ public class HijosTableFacade extends
         return hijosServiciosDao.getHijo(idHijo);
     }
     
-    public Map<String, Object> getHijos(Long idPadre) {
+    public List<Map<String, Object>> getHijos(Long idPadre) {
         return hijosServiciosDao.getHijos(idPadre);
     }
     
