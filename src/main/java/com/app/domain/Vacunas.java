@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "vacunas", schema = "public")
@@ -33,10 +35,14 @@ public class Vacunas implements Serializable{
 	private String nombreVacuna;
 
 	@Column(name = "fecha_aplicacion")
+	@Temporal(TemporalType.DATE)
 	private Date fechaAplicacion;
 
 	@Column(name = "aplicada")
 	private Boolean aplicada;
+
+	@Column(name = "notificado")
+	private Boolean notificado;
 
 	public Long getIdVacuna() {
 		return idVacuna;
@@ -76,6 +82,14 @@ public class Vacunas implements Serializable{
 
 	public void setAplicada(Boolean aplicada) {
 		this.aplicada = aplicada;
+	}
+
+	public Boolean getNotificado() {
+		return notificado;
+	}
+
+	public void setNotificado(Boolean notificado) {
+		this.notificado = notificado;
 	}
 
 }

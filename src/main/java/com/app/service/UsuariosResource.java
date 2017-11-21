@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import com.app.domain.Usuarios;
 import com.app.tables.facade.UsuariosTableFacade;
+import com.app.utils.CustomResponse;
 
 @Named
 @RequestScoped
@@ -39,6 +40,16 @@ public class UsuariosResource {
     		throw new Exception("Se requiere idFirebase");
     	}
         return Response.ok(facade.getUsuarios(idFirebase)).build();
+    }    
+    @POST
+    @Path("/verificar-usuario")
+    public Response verificarUsuario(@QueryParam("correo")  String correo) throws Exception {
+    	if(correo== null || correo.equals("")){
+    		throw new Exception("Se requiere correo");
+    	}
+    	CustomResponse respuesta = new CustomResponse();
+    	respuesta.setRespuesta(facade.verificarUsuario(correo));
+        return Response.ok(respuesta).build();
     }
     
     @POST

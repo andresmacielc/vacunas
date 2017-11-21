@@ -57,6 +57,57 @@ public class HijosTableDAO extends GenericDaoImpl<Usuarios> {
       return resultlist;
     }
     
+    public List<Map<String, Object>> enviarNotificaciones(Long idPadre) {
+        StringBuilder countQuery = new StringBuilder();
+        countQuery.append(" select DISTINCT h.* from public.usuarios u ");
+		countQuery.append(" JOIN public.hijos h on u.id_usuario = h.id_padre ");
+		countQuery.append(" JOIN public.vacunas v on h.id_hijo = v.id_hijo	 ");	
+		countQuery.append(" WHERE v.fecha_aplicacion <= now() + interval '2 day'  ");
+		countQuery.append(" and v.notificado = false ");
+		countQuery.append(" and u.id_usuario = "+idPadre.toString());
+		
+        List<Object[]> oResultList = em.createNativeQuery(countQuery.toString()).
+                getResultList();
+        if(oResultList.size()<=0){
+      	  return null;
+        }
+        List<Map<String, Object>> resultlist = new ArrayList<>();
+        for (Object[] oResultArray : oResultList) {
+            Map<String, Object> oMapResult = new HashMap<>();
+            oMapResult.put("idHijo", oResultArray[0]);
+            oMapResult.put("IdPadre", oResultArray[1]);
+            oMapResult.put("nombres", oResultArray[2]);
+            oMapResult.put("apellidos", oResultArray[3]);
+            oMapResult.put("edad", oResultArray[4]);
+            oMapResult.put("documento", oResultArray[5]);
+            oMapResult.put("fechaNacimiento", oResultArray[6]);
+            oMapResult.put("sexo", oResultArray[7]);
+            resultlist.add(oMapResult);
+        }
+        actualizarNotificaciones(idPadre);
+        return resultlist;
+      }
+    
+	private void actualizarNotificaciones(Long idPadre) {
+
+	    try{        
+	    	String countQuery = " UPDATE vacunas SET notificado = true where id_hijo in ( select DISTINCT h.id_hijo from public.usuarios u "
+				+" JOIN public.hijos h on u.id_usuario = h.id_padre "
+				+" JOIN public.vacunas v on h.id_hijo = v.id_hijo	 "
+				+" WHERE v.fecha_aplicacion <= now() + interval '2 day'  "
+				+" and v.notificado = false "
+				+" and u.id_usuario = "+idPadre.toString() +" ) ";
+	    	em.getTransaction().begin();
+	    	Query q = em.createNativeQuery(countQuery);
+		    q.executeUpdate();
+	    	em.getTransaction().commit();
+	    }catch (PersistenceException pe){
+	        pe.printStackTrace();
+	    }
+
+		
+	}
+
 	public Hijos crearHijo(Hijos hijos) throws SQLException, NamingException {
 		em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();

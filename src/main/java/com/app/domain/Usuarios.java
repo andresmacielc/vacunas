@@ -41,6 +41,7 @@ public class Usuarios implements Serializable{
 	private String documento;
 
 	@Column(name = "fecha_nacimiento")
+	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
 
 	@Column(name = "sexo")
@@ -53,11 +54,11 @@ public class Usuarios implements Serializable{
 	private String correoElectronico;
 
 	@Column(name = "fecha_creacion")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
 
 	@Column(name = "fecha_modificacion")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaModificacion;
 
 	public Long getIdUsuario() {

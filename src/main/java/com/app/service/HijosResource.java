@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 
 import com.app.domain.Hijos;
 import com.app.tables.facade.HijosTableFacade;
+import com.app.utils.CustomResponse;
 
 @Named
 @RequestScoped
@@ -39,13 +40,24 @@ public class HijosResource {
         return Response.ok(facade.getHijo(idHijo)).build();
     }
 
-    @GET
+    @POST
     @Path("/obtener-por-padre")
     public Response gethijosPorPadre(@QueryParam("idPadre")  Long idPadre) throws Exception {
     	if(idPadre== null){
-    		throw new Exception("Se requiere idHijo");
+    		throw new Exception("Se requiere idPadre");
     	}
         return Response.ok(facade.getHijos(idPadre)).build();
+    }    
+    @POST
+    @Path("/enviar-notificaciones")
+    public Response enviarNotificaciones(@QueryParam("idPadre")  Long idPadre) throws Exception {
+    	if(idPadre== null){
+    		throw new Exception("Se requiere idPadre");
+    	}
+
+    	CustomResponse respuesta = new CustomResponse();
+    	respuesta.setRespuesta(facade.enviarNotificaciones(idPadre));
+        return Response.ok(respuesta).build();
     }
     
     @POST

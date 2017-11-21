@@ -39,7 +39,7 @@ public class VacunasResource {
         return Response.ok(facade.getVacuna(idVacuna)).build();
     }
 
-    @GET
+    @POST
     @Path("/obtener-por-hijo")
     public Response getVacunaHijo(@QueryParam("idHijo")  Long idHijo) throws Exception {
     	if(idHijo== null){

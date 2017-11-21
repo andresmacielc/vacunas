@@ -42,4 +42,8 @@ public class UsuariosTableFacade extends
         
     }
 
+    public Usuarios verificarUsuario( String correo) {
+        return usuariosServiciosDao.verificarUsuario(correo);
+    }
+
 }

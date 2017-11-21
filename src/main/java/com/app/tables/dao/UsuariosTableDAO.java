@@ -26,7 +26,7 @@ public class UsuariosTableDAO extends GenericDaoImpl<Usuarios> {
       countQuery.append("select id_usuario, id_firebase, nombres, apellidos, documento,");
       countQuery.append(" fecha_nacimiento, sexo, estado_civil, correo_electronico, fecha_creacion, fecha_modificacion");
       countQuery.append(" from public.usuarios");
-      countQuery.append(" where id_firebase ='"+idFirebase+"'");
+      countQuery.append(" where id_usuario ='"+idFirebase+"'");
       List<Object[]> oResultList = em.createNativeQuery(countQuery.toString()).
               getResultList();
       if(oResultList.size()<=0){
@@ -86,4 +86,25 @@ public class UsuariosTableDAO extends GenericDaoImpl<Usuarios> {
 	        return "ERROR";
 	    }
 	}
+    public Usuarios verificarUsuario(String correo) {
+    	Usuarios usuarios = null;
+        StringBuilder countQuery = new StringBuilder();
+        countQuery.append("select id_usuario, nombres, apellidos, documento ");
+        countQuery.append(" from public.usuarios");
+        countQuery.append(" where correo_electronico ='"+correo+"'");
+        List<Object[]> oResultList = em.createNativeQuery(countQuery.toString()).
+                getResultList();
+        if(oResultList.size()<=0){
+      	  return null;
+        }
+        for (Object[] oResultArray : oResultList) {
+        	String idUsuario = oResultArray[0].toString();
+
+			em = entityManagerFactory.createEntityManager();
+	    	em.getTransaction().begin();
+	    	usuarios = new Usuarios();
+	    	usuarios = em.find(Usuarios.class,  Long.parseLong(idUsuario));
+        }
+        return usuarios;
+      }
 }

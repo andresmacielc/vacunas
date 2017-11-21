@@ -33,6 +33,10 @@ public class HijosTableFacade extends
     
     public List<Map<String, Object>> getHijos(Long idPadre) {
         return hijosServiciosDao.getHijos(idPadre);
+    }  
+    
+    public List<Map<String, Object>> enviarNotificaciones(Long idPadre) {
+        return hijosServiciosDao.enviarNotificaciones(idPadre);
     }
     
     public Hijos crearHijo(Hijos hijos) throws SQLException, NamingException {

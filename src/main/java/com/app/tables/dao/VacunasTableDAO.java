@@ -1,7 +1,11 @@
 package com.app.tables.dao;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +50,16 @@ public class VacunasTableDAO extends GenericDaoImpl<Vacunas> {
           oMapResult.put("idVacuna", oResultArray[0]);
           oMapResult.put("idHijo", oResultArray[1]);
           oMapResult.put("nombreVacuna", oResultArray[2]);
-          oMapResult.put("fechaAplicacion", oResultArray[3]);
+          //System.out.println(oResultArray[3].toString());
+          Timestamp timestamp = (Timestamp) oResultArray[3];
+          Date fecha = null;
+          String prueba = null;
+          if(timestamp != null){
+        	  fecha = new Date( timestamp.getTime());
+              DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              prueba = df.format(fecha);
+          }
+          oMapResult.put("fechaAplicacion",prueba );
           oMapResult.put("aplicada", oResultArray[4]);
           resultlist.add(oMapResult);
       }
